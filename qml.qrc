@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>BgRect.qml</file>
+        <file>CustomTextField.qml</file>
+        <file>CustomButton.qml</file>
+        <file>CustomHeader.qml</file>
+        <file>CustomFieldRect.qml</file>
+        <file>CustomListElement.qml</file>
+        <file>CustomWhiteText.qml</file>
+        <file>CustomCheckMark.qml</file>
+        <file>CustomEditPart.qml</file>
+        <file>checkmark.png</file>
+        <file>CustomProgressBar.qml</file>
+    </qresource>
+</RCC>
