@@ -12,6 +12,8 @@ Item {
 
     property int animationDuration: 600
 
+    property alias progressBar: anim
+
     width: size
     height: size
 
@@ -60,9 +62,19 @@ Item {
 
         Behavior on degree {
             NumberAnimation {
+                id: anim
                 duration: root.animationDuration
+
+                onRunningChanged: {
+                    if(running === false) {
+                        model.done = false
+                    }
+                }
             }
+
         }
+
+
     }
 }
 

@@ -40,6 +40,7 @@ Rectangle {
 
             list.saveData()
             parent.saveData()
+
         }
     }
 

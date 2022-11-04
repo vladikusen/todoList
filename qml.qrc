@@ -12,5 +12,6 @@
         <file>CustomEditPart.qml</file>
         <file>checkmark.png</file>
         <file>CustomProgressBar.qml</file>
+        <file>CustomArrow.qml</file>
     </qresource>
 </RCC>

@@ -10,6 +10,7 @@ class TodoListModel : public QAbstractListModel
     Q_OBJECT
 public:
     explicit TodoListModel(QObject* parent = nullptr);
+    explicit TodoListModel(const TodoListModel& that);
     enum {
         NameRole = Qt::UserRole,
         DateRole,

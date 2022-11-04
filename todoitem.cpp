@@ -68,3 +68,13 @@ void TodoItem::setDone()
 {
     done = !done;
 }
+
+TodoItem &TodoItem::operator=(const TodoItem &that)
+{
+    name = that.name;
+    date = that.date;
+    description = that.description;
+    done = that.done;
+
+    return *this;
+}

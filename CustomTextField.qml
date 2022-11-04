@@ -14,14 +14,19 @@ Rectangle {
     property alias placeHolder: innerText.placeholderText
     property alias acceptedText: innerText.text
     property string getText: innerText.text
+    property alias textAnimation: textAnim
 
     TextField {
         id: innerText
 
-        anchors.fill: parent
+        //anchors.fill: parent
+        width: parent.width
+        height: parent.height
         leftPadding: parent.height * 0.3
 
         color: "white"
+
+        maximumLength: 20
 
         placeholderTextColor: "#5a5a5a"
 
@@ -34,6 +39,40 @@ Rectangle {
             color: "#3b3b3b"
 
             radius: 15 * root.width * 0.1
+        }
+
+        SequentialAnimation {
+            id: textAnim
+
+            NumberAnimation {
+                target: innerText
+                property: "x"
+                running: false
+                from: x
+                to: x + 10
+                duration: 60
+            }
+
+            NumberAnimation {
+                target: innerText
+                property: "x"
+                running: false
+                from: x
+                to: x - 20
+                duration: 60
+            }
+
+            NumberAnimation {
+                target: innerText
+                property: "x"
+                running: false
+                from: x
+                to: x - 10
+                duration: 60
+            }
+
+
+
         }
     }
 }

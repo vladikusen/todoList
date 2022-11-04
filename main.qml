@@ -23,9 +23,12 @@ Rectangle {
             signal editData
             signal saveData
 
+            model: FilteredTodosModel
+
             headerPositioning: ListView.OverlayHeader
 
             header: Rectangle {
+                id: headerRect
                 width: leftPart.width
                 height: leftPart.height * 0.08 + (leftPart.height * 0.3) / 3 - (leftPart.height * 0.3) * 0.05
                 z: 2
@@ -47,6 +50,8 @@ Rectangle {
 
                     anchors.top: todoHeader.bottom
 
+
+
                     model: ListModel {
                         ListElement {
                            text: "All"
@@ -57,7 +62,12 @@ Rectangle {
                         ListElement {
                             text: "Undone"
                         }
+                        ListElement {
+                            text: "Sorted"
+                        }
                     }
+
+
 
                     delegate: ItemDelegate {
                         width: listCombo.width; height: listCombo.height * 0.8
@@ -78,23 +88,54 @@ Rectangle {
 
                             color: rightPart.color
                         }
-
-
-                        highlighted: listCombo.highlightedIndex === index
                     }
+
+                    indicator: Rectangle {
+                        width: parent.width * 0.04
+                        height: parent.height * 0.5
+
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: parent.right
+                        anchors.rightMargin: parent.width * 0.05
+                        color: leftPart.color
+
+                        CustomArrow {
+                            id: topArrow
+                            rotationAngle: 180
+
+                            anchors.top: parent.top
+                        }
+
+                        CustomArrow {
+                            id: bottomArrow
+
+                            anchors.top: topArrow.bottom
+
+                            anchors.topMargin: parent.height * 0.05
+                        }
+                    }
+
+                    currentIndex: 0
 
                     onCurrentValueChanged: {
                         if(currentValue === "All") {
+                            list.model = FilteredTodosModel
                             FilteredTodosModel.doneFilterEnabled = false
                             FilteredTodosModel.unDoneFilterEnabled = false
                         }
                         if(currentValue === "Done") {
+                            list.model = FilteredTodosModel
                             FilteredTodosModel.doneFilterEnabled = true
                             FilteredTodosModel.unDoneFilterEnabled = false
                         }
                         if(currentValue === "Undone") {
+                            list.model = FilteredTodosModel
                             FilteredTodosModel.unDoneFilterEnabled = true
                             FilteredTodosModel.doneFilterEnabled = false
+                        }
+                        if(currentValue === "Sorted") {
+                            list.model = SortNameTodosModel
+                            SortNameTodosModel.sort(0)
                         }
                     }
 
@@ -130,9 +171,9 @@ Rectangle {
                              contentItem: ListView {
                                  id: comboPopupListView
                                  clip: true
-                                 width: parent.width
+                                 width: parent.width + 50
 
-                                 implicitHeight: listCombo.height * 2
+                                 implicitHeight: listCombo.height * 4
 
                                  model: listCombo.popup.visible ? listCombo.delegateModel : null
 
@@ -158,7 +199,7 @@ Rectangle {
                                  border.width: 2
                                  border.color: "#67d3a9"
 
-                                 radius: 15 * height * 0.01
+                                 radius: 13 * height * 0.01
 
                              }
                          }
@@ -169,7 +210,6 @@ Rectangle {
 
 
 
-            model: FilteredTodosModel
 
             delegate: CustomListElement {
                 id: listDelegate
@@ -232,13 +272,20 @@ Rectangle {
 
             modal: true
 
-            padding: 20
+            padding: parent.height * 0.03
+
+            Behavior on scale {
+                NumberAnimation {
+                    duration: 300
+                }
+            }
 
             background: Rectangle {
+                id: popupBg
                 width: parent.width
                 height: parent.height
 
-                anchors.fill: parent
+                //anchors.fill: parent
 
                 color: leftPart.color
 
@@ -282,11 +329,16 @@ Rectangle {
                         if(fillData.firstField.getText.length != 0 && fillData.secondField.getText.length != 0 &&
                                 fillData.thirdField.getText !== 0) {
                             ToDoListModel.addTodo(fillData.firstField.acceptedText, fillData.secondField.acceptedText, fillData.thirdField.acceptedText)
+                            fillData.firstField.acceptedText = ""
+                            fillData.secondField.acceptedText = ""
+                            fillData.thirdField.acceptedText = ""
+                            fillPopup.close()
                         }
-                        fillData.firstField.acceptedText = ""
-                        fillData.secondField.acceptedText = ""
-                        fillData.thirdField.acceptedText = ""
-                        fillPopup.close()
+                        else {
+                            fillData.firstField.textAnimation.start()
+                            fillData.secondField.textAnimation.start()
+                            fillData.thirdField.textAnimation.start()
+                        }
                     }
                 }
 
@@ -302,6 +354,7 @@ Rectangle {
     BgRect {
         id: rightPart
         anchors.right: parent.right
+
         Loader {
             id: rightPartLoader
 
@@ -319,7 +372,7 @@ Rectangle {
         Connections {
             target: rightPartLoader.item
             function onSaveData() {
-                rightPartLoader.source = "BgRect.qml"
+                rightPartLoader.source = ""
             }
         }
 

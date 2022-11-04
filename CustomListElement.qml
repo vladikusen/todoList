@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.5
 
-
 Rectangle {
     id: mainRect
 
@@ -57,39 +56,62 @@ Rectangle {
         CustomWhiteText {
             id: nameText
 
-            text: model.name
+            text: "<b>Name:</b> " + model.name
         }
         CustomWhiteText {
             id: dateText
 
             anchors.top: nameText.bottom
 
-            text: model.date
+            text: "<b>Date:</b> " + model.date
         }
         CustomWhiteText {
             id: descriptionText
 
             anchors.top: dateText.bottom
 
-            text: model.description
+            text: "<b>Description:</b> " +model.description
         }
 
-        CheckBox {
-            id: todoCheck
+//        CheckBox {
+//            id: todoCheck
 
-            anchors.right: parent.right
+//            anchors.right: parent.right
+//            anchors.verticalCenter: parent.verticalCenter
+
+//            checked: model.done
+
+//            indicator: CustomCheckMark {
+//                id: indicate
+//                value: todoCheck.checked ? 1 : 0
+//                anchors.verticalCenter: parent.verticalCenter
+//            }
+
+//            onClicked: {
+//                console.log("checked state should be changed")
+//            }
+
+//            Connections {
+//                target: indicate
+//                function onAnimFinished() {
+//                    model.done = todoCheck.checked
+//                }
+//            }
+
+//        }
+
+
+        CustomCheckMark {
+            id: indicate
             anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            value: model.done ? 1 : 0
 
-            checked: model.done
-
-            indicator: CustomCheckMark {
-                id: indicate
-                value: todoCheck.checked ? 1 : 0
-                anchors.verticalCenter: parent.verticalCenter
-            }
-
-            onClicked: {
-                model.done = checked
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    indicate.value = !model.done
+                }
             }
         }
 
@@ -101,7 +123,7 @@ Rectangle {
         PropertyAnimation {
             target: todoItem
             property: "scale"
-            to: 1.1
+            to: 1.05
             duration: 200
             easing.type: Easing.InOutQuad
         }

@@ -3,15 +3,24 @@
 TodoListModel::TodoListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
+    std::string k = "kkk";
     for(auto i = 0; i < 3; i++) {
-        list.push_back(std::move(TodoItem(this)));
+        k += "k";
+        list.push_back(std::move(TodoItem(this, k)));
     }
 
+    std::string c = "c";
     for(auto i = 0; i < 2; i++) {
-        list.push_front(std::move(TodoItem(this, "defaults", "22.2020.20", "description", false)));
+        c += "c";
+        list.push_front(std::move(TodoItem(this, "defaults" + c, "22.2020.20", "description", false)));
         emit rowsInserted(QModelIndex(), 0, 0, {});
     }
 
+}
+
+TodoListModel::TodoListModel(const TodoListModel &that)
+{
+    list = that.list;
 }
 
 int TodoListModel::rowCount(const QModelIndex &parent) const

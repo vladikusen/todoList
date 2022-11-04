@@ -22,6 +22,8 @@ set(PROJECT_SOURCES
         todolistmodel.h
         sortfiltertodos.cpp
         sortfiltertodos.h
+        sortbynamemodel.h
+        sortbynamemodel.cpp
         qml.qrc
 )
 

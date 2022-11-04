@@ -20,6 +20,8 @@ public:
     void setDate(std::string newDate);
     void setDescription(std::string newDescription);
     void setDone();
+
+    TodoItem& operator=(const TodoItem& that);
 signals:
 
 private:
